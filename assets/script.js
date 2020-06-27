@@ -5,36 +5,52 @@ function weather() {
     fetch(
         "https://api.openweathermap.org/data/2.5/weather?q="
         + city
+        + "&units=imperial"
         + "&appid="
         + apiKey
     )
 
-    .then(function(response) {return response.json();})
+    .then(function(response) {return response.json()})
     
     .then(function(response) {
         if (city.length === 0) {
             alert("Please enter a city!")
         }
         else {
-        console.log(response);
-        console.log(response.dt);
-        var temperatureContainerEl = document.querySelector('#temperature-container');
-        var cityContainerEl = document.querySelector('#city-container');
-        var dateContainerEl = document.querySelector('#date-container');
-        var nameContainerEl = document.querySelector('#name-container');
-        var date = Date(response.dt);
-        var citySearch = (response.name);
-        var temperature = (response.main.temp);
-        var temperatureF = Math.floor((temperature - 273.15) * 9 / 5 + 32);
-      
+            console.log(response);
+            var uvIndexContainerEl = document.querySelector('#uv-index-container');
+            var windSpeedContainerEl = document.querySelector('#wind-speed-container');
+            var temperatureContainerEl = document.querySelector('#temperature-container');
+            var cityContainerEl = document.querySelector('#city-container');
+            var dateContainerEl = document.querySelector('#date-container');
+            var nameContainerEl = document.querySelector('#name-container');
+            var date = Date(response.dt);
+            var citySearch = (response.name);
+            var temperature = (response.main.temp);
+            var windSpeed = (response.wind.speed);
+            var lat = (response.coord.lat);
+            var lon = (response.coord.lon);
 
-        var cityButton = document.createElement('button');
-        cityButton.innerHTML = citySearch;
-        cityContainerEl.appendChild(cityButton);
+            var cityButton = document.createElement('button');
+            cityButton.innerHTML = citySearch;
+            cityContainerEl.appendChild(cityButton);
+    
+            dateContainerEl.innerHTML = date;
+            nameContainerEl.innerHTML = citySearch;
+            temperatureContainerEl.innerHTML = temperature + "°F";
+            windSpeedContainerEl.innerHTML = windSpeed + "MPH";
+        
 
-        dateContainerEl.innerHTML = date;
-        nameContainerEl.innerHTML = citySearch;
-        temperatureContainerEl.innerHTML = temperatureF + "°F";
+            return fetch(
+                "http://api.openweathermap.org/data/2.5/uvi?appid="
+                + apiKey
+                + "&lat="
+                + lat
+                + "&lon="
+                + lon
+            )
+            .then(function(response) {return response.json()})
+            .then(console.log(response))
 
         }
     })
