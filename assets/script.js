@@ -40,6 +40,8 @@ function weather() {
             temperatureContainerEl.innerHTML = temperature + "°F";
             windSpeedContainerEl.innerHTML = windSpeed + "MPH";
         
+            console.log(lat);
+            console.log(lon);
 
             return fetch(
                 "http://api.openweathermap.org/data/2.5/uvi?appid="
@@ -49,9 +51,13 @@ function weather() {
                 + "&lon="
                 + lon
             )
-            .then(function(response) {return response.json()})
-            .then(console.log(response))
+            .then(function(uvi) {return uvi.json()})
+            .then(function(uvi) {
+            var uv = (uvi.value);
+            uvIndexContainerEl.innerHTML = uv;
+            })
 
+            
         }
     })
 }
