@@ -24,3 +24,7 @@ input {
     padding-top: 20px;
     width: 100%;
 }
+
+.card {
+    display: inline;
+}

@@ -43,8 +43,8 @@ function weather() {
             console.log(lat);
             console.log(lon);
 
-            return fetch(
-                "http://api.openweathermap.org/data/2.5/uvi?appid="
+            fetch(
+                "https://api.openweathermap.org/data/2.5/uvi?appid="
                 + apiKey
                 + "&lat="
                 + lat
@@ -57,7 +57,41 @@ function weather() {
             uvIndexContainerEl.innerHTML = uv;
             })
 
+            fetch(
+                "https://api.openweathermap.org/data/2.5/forecast?q="
+                + city
+                + "&units=imperial"
+                + "&appid="
+                + apiKey
+            )
+
+            .then(function(five) {return five.json()})
+            .then(function(five) {
+
+            var dates = [];
+            // five is data from api
+            for (var i = 0; i < five.list.length; i++) {
+            var isTwelve = five.list[i]["dt_txt"].split(" ")[1].split(":")[0] == 12;
+            if (isTwelve) {
+                // populate with weather data from this object
+                dates.push(five.list[i]);
+            }
+            }
+            console.log(dates);
+            for (var i = 0; i < dates.length; i++) {
+
+            var dateCard = document.createElement("div");
+            dateCard.textContent = dates[i].dt_txt;
+            document.body.appendChild(dateCard);
             
+            var tempCard = document.createElement("div");
+            tempCard.textContent = dates[i].main.temp + "°F";
+            document.body.appendChild(tempCard);
+
+            var humidCard = document.createElement("div");
+            humidCard.textContent = dates[i].main.humidity + "%";
+            document.body.appendChild(humidCard);
+            }})
         }
     })
 }
