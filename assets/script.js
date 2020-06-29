@@ -24,6 +24,7 @@ function weather() {
             var cityContainerEl = document.querySelector('#city-container');
             var dateContainerEl = document.querySelector('#date-container');
             var nameContainerEl = document.querySelector('#name-container');
+            var fiveDayForecast = document.querySelector('#five-day-forecast')
             var date = Date(response.dt);
             var citySearch = (response.name);
             var temperature = (response.main.temp);
@@ -80,17 +81,14 @@ function weather() {
             console.log(dates);
             for (var i = 0; i < dates.length; i++) {
 
-            var dateCard = document.createElement("div");
-            dateCard.textContent = dates[i].dt_txt;
-            document.body.appendChild(dateCard);
+            var dateCard = dates[i].dt_txt;
+            fiveDayForecast.innerHTML = dateCard;
             
-            var tempCard = document.createElement("div");
-            tempCard.textContent = dates[i].main.temp + "°F";
-            document.body.appendChild(tempCard);
+            var tempCard = dates[i].main.temp + "°F";
+            fiveDayForecast.innerHTML = fiveDayForecast.innerHTML + tempCard
 
-            var humidCard = document.createElement("div");
-            humidCard.textContent = dates[i].main.humidity + "%";
-            document.body.appendChild(humidCard);
+            var humidCard = dates[i].main.humidity + "%";
+            fiveDayForecast.innerHTML = fiveDayForecast.innerHTML + humidCard
             }})
         }
     })
