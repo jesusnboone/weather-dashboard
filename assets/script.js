@@ -24,7 +24,6 @@ function weather() {
             var cityContainerEl = document.querySelector('#city-container');
             var dateContainerEl = document.querySelector('#date-container');
             var nameContainerEl = document.querySelector('#name-container');
-            var fiveDayForecast = document.querySelector('#five-day-forecast')
             var date = Date(response.dt);
             var citySearch = (response.name);
             var temperature = (response.main.temp);
@@ -69,27 +68,31 @@ function weather() {
             .then(function(five) {return five.json()})
             .then(function(five) {
 
-            var dates = [];
-            // five is data from api
-            for (var i = 0; i < five.list.length; i++) {
-            var isTwelve = five.list[i]["dt_txt"].split(" ")[1].split(":")[0] == 12;
-            if (isTwelve) {
-                // populate with weather data from this object
-                dates.push(five.list[i]);
+                var dates = [];
+                // five is data from api
+                for (var i = 0; i < five.list.length; i++) {
+                var isTwelve = five.list[i]["dt_txt"].split(" ")[1].split(":")[0] == 12;
+                if (isTwelve) {
+                    // populate with weather data from this object
+                    dates.push(five.list[i]);
+                }
+                }
+                console.log(dates);
+                for (var i = 0; i < dates.length; i++) {
+    
+                var dateCard = document.createElement("card");
+                dateCard.setAttribute("class", "card");
+                dateCard.textContent = dates[i].dt_txt;
+                document.body.appendChild(dateCard);
+    
+                var tempCard = document.createElement("div");
+                tempCard.textContent = dates[i].main.temp + "°F";
+                dateCard.appendChild(tempCard);
+    
+                var humidCard = document.createElement("div");
+                humidCard.textContent = dates[i].main.humidity + "%";
+                dateCard.appendChild(humidCard);
+                }})
             }
-            }
-            console.log(dates);
-            for (var i = 0; i < dates.length; i++) {
-
-            var dateCard = dates[i].dt_txt;
-            fiveDayForecast.innerHTML = dateCard;
-            
-            var tempCard = dates[i].main.temp + "°F";
-            fiveDayForecast.innerHTML = fiveDayForecast.innerHTML + tempCard
-
-            var humidCard = dates[i].main.humidity + "%";
-            fiveDayForecast.innerHTML = fiveDayForecast.innerHTML + humidCard
-            }})
-        }
-    })
-}
+        })
+    } 
