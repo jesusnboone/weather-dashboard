@@ -24,7 +24,7 @@ function weather() {
             var cityContainerEl = document.querySelector('#city-container');
             var dateContainerEl = document.querySelector('#date-container');
             var nameContainerEl = document.querySelector('#name-container');
-            var date = Date(response.dt);
+            var date = moment(response.dt).format('MMM Do');
             var citySearch = (response.name);
             var temperature = (response.main.temp);
             var windSpeed = (response.wind.speed);
@@ -37,8 +37,8 @@ function weather() {
     
             dateContainerEl.innerHTML = date;
             nameContainerEl.innerHTML = citySearch;
-            temperatureContainerEl.innerHTML = temperature + "°F";
-            windSpeedContainerEl.innerHTML = windSpeed + "MPH";
+            temperatureContainerEl.innerHTML = "Temperature: " + temperature + "°F";
+            windSpeedContainerEl.innerHTML = "Wind Speed: " + windSpeed + "MPH";
         
             console.log(lat);
             console.log(lon);
@@ -54,7 +54,8 @@ function weather() {
             .then(function(uvi) {return uvi.json()})
             .then(function(uvi) {
             var uv = (uvi.value);
-            uvIndexContainerEl.innerHTML = uv;
+            uvIndexContainerEl.innerHTML = "UV Index: " + uv;
+            
             })
 
             fetch(
@@ -82,15 +83,20 @@ function weather() {
     
                 var dateCard = document.createElement("div");
                 dateCard.setAttribute("class", "card");
-                dateCard.textContent = dates[i].dt_txt;
+                dateCard.textContent = moment(dates[i].dt_txt).format('MMM Do');
                 document.body.appendChild(dateCard);
+
+                var icon = document.createElement("img");
+                var iconUrl = "https://openweathermap.org/img/w/" + dates[i].weather.icon + ".png";
+                icon.src = iconUrl
+                dateCard.appendChild(icon);
     
                 var tempCard = document.createElement("div");
-                tempCard.textContent = dates[i].main.temp + "°F";
+                tempCard.textContent = "Temp: " + dates[i].main.temp + "°F";
                 dateCard.appendChild(tempCard);
     
                 var humidCard = document.createElement("div");
-                humidCard.textContent = dates[i].main.humidity + "%";
+                humidCard.textContent = "Humidity: " + dates[i].main.humidity + "%";
                 dateCard.appendChild(humidCard);
                 }})
             }
