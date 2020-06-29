@@ -80,7 +80,7 @@ function weather() {
                 console.log(dates);
                 for (var i = 0; i < dates.length; i++) {
     
-                var dateCard = document.createElement("card");
+                var dateCard = document.createElement("div");
                 dateCard.setAttribute("class", "card");
                 dateCard.textContent = dates[i].dt_txt;
                 document.body.appendChild(dateCard);

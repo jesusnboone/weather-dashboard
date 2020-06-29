@@ -26,5 +26,8 @@ input {
 }
 
 .card {
+    display: flex;
     height: 100px;
+    width: 100%;
+    align-items: center;
 }
